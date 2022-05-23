@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="content-section">
+    <form method="POST" action="">
+        <fieldset class="form-group">
+            {{ form.hidden_tag() }}
+            <center>
+                <legend class="border-bottom mb-4 h1"> {{ header }}</legend>
+            </center>
+            <div class="form-group">
+                {{ form.Country.label(class="form-control-label") }}
+                {% if form.Country.errors %}
+                {{ form.Country(class="form-control form-control-lg is-invalid") }}
+                <div class='invalid-feedback'>
+                    {% for error in form.Country.errors %}
+                    <span> {{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.Country(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <br>
+        <center>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-dark") }}
+            </div>
+        </center>
+    </form>
+
+</div>
+
+
+{% if graph1JSON != {} %}
+<center><h4 class="border-bottom mb-4 h1"> {{ header2 }} </h4></center>
+
+<div id="chart1" class="chart1"></div>
+
+<center><h4 class="border-bottom mb-4 h1"> {{ header3 }} </h4></center>
+<center><img src="static/heatmap_country.png" alt="Italian Trulli"></center>
+<br>
+<center><h4 class="border-bottom mb-4 h1"> {{ header4 }} </h4></center>
+
+<table class="table table-dark table-hover">
+    <thead>
+        <tr>
+            <th style="text-align:center" scope="col">Index</th>
+            <th style="text-align:center" scope="col">Name</th>
+            <th style="text-align:center" scope="col">Medals</th>
+            <th style="text-align:center" scope="col">Country</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for key,value in top15_athletes.iterrows() %}
+        <tr>
+            <td style="text-align:center">{{ count }}</td>
+            <td style="text-align:center">{{ value['Name'] }}</td>
+            <td style="text-align:center">{{ value['Medals'] }}</td>
+            <td style="text-align:center">{{ value['Sport'] }}</td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% endif %}
+
+
+
+
+
+
+<script type="text/javascript">
+    var graphs1 = {{ graph1JSON | safe}};
+    Plotly.plot("chart1", graphs1, {});
+
+
+</script>
+{% endblock content %}

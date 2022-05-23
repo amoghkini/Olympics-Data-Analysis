@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% if graph1JSON != {} %}
+<center><h4 class="border-bottom mb-4 h1">  {{ header1}}  </h4></center>
+<center><div id="chart1" class="chart1"></div></center>
+
+<center>
+    <div class="content-section">
+        <form method="POST" action="">
+            <fieldset class="form-group">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.Medal.label(class="form-control-label") }}
+                    {% if form.Medal.errors %}
+                    {{ form.Medal(class="form-control form-control-lg is-invalid") }}
+                    <div class='invalid-feedback'>
+                        {% for error in form.Medal.errors %}
+                        <span> {{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.Medal(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <br>
+            <center>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-dark") }}
+                </div>
+            </center>
+        </form>
+
+    </div>
+</center>
+
+<center><h4 class="border-bottom mb-4 h1"> {{ header2}} </h4></center>
+<center><div id="chart2" class="chart2"></div></center>
+<center>
+<div class="content-section">
+    <form method="POST" action="">
+        <fieldset class="form-group">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.Sport.label(class="form-control-label") }}
+                {% if form.Sport.errors %}
+                {{ form.Sport(class="form-control form-control-lg is-invalid") }}
+                <div class='invalid-feedback'>
+                    {% for error in form.Sport.errors %}
+                    <span> {{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.Sport(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <br>
+        <center>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-dark") }}
+            </div>
+        </center>
+    </form>
+
+</div>
+</center>
+<center><h4 class="border-bottom mb-4 h1"> {{ header3}} </h4></center>
+<center><img src="static/scatter_sport.png" alt="Italian Trulli"></center>
+<br>
+
+<center><h4 class="border-bottom mb-4 h1"> {{ header4}} </h4></center>
+<center><div id="chart3" class="chart3"></div></center>
+
+{% endif %}
+
+
+
+
+<script type="text/javascript">
+    var graphs1 = {{ graph1JSON | safe}};
+    Plotly.plot("chart1", graphs1, {});
+
+    
+    var graphs2 = {{ graph2JSON | safe}};
+    Plotly.plot("chart2", graphs2, {});
+
+    var graphs3 = {{ graph3JSON | safe}};
+    Plotly.plot("chart3", graphs3, {});
+
+</script>
+
+{% endblock content %}
