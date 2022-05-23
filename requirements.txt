@@ -4,6 +4,5 @@ flask_wtf
 wtforms
 pandas
 plotly
-json
 matplotlib
 seaborn
