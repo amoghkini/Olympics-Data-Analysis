@@ -18,7 +18,7 @@ region_df = pd.read_csv('noc_regions.csv')
 countries =[]
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "secretkey"
-
+preprocessed_df = pd.read_csv('processedfile.csv')
 
 class Medals(FlaskForm):
     Country = SelectField('Select Country', choices=country_list(preprocess(df, region_df)),  validators=[DataRequired()])
@@ -35,13 +35,13 @@ class countryForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-class Athlete(FlaskForm):
-    Medal = SelectField('Select Medal', choices=['Gold','Silver','Bonze'],  validators=[DataRequired()])
-    Sport = SelectField('Select Sport', choices=sports_list(preprocess(df, region_df)),  validators=[DataRequired()])
+class AthleteMedal(FlaskForm):
+    Medal = SelectField('Select Medal', choices=['Gold', 'Silver'])
     submit = SubmitField('Submit')
     
 @app.route('/')
 def home():
+    #return render_template('home.html', tables=[preprocessed_df.to_html()], titles=[''])
     return render_template('home.html')
 
 @app.route('/medaltally',methods=['GET',"POST"])
@@ -55,6 +55,7 @@ def medalTally():
     elif request.method == 'GET':
         medals_total,header = fetch_medal_tally(preprocessed_df,'Overall',"Overall")
     df_length = len(medals_total)
+    print("Length",df_length)
     print(type(medalTally))
     return render_template('medaltally.html', form=form, header=header, medal_tally=medals_total,df_length=df_length)
 
@@ -142,7 +143,9 @@ def country():
 
 @app.route('/athelete', methods=['GET', 'POST'])
 def athelete():
-    form = Athlete()
+    form = AthleteMedal()
+    form1 = Sports()
+
     athlete_df = preprocessed_df.drop_duplicates(subset=['Name', 'region'])
     header1 = "Distribution of age"
     x1 = athlete_df['Age'].dropna()
@@ -172,37 +175,37 @@ def athelete():
         medal = form.Medal.data
     else:
         medal = "Gold"
-        
+    print("Amogh medal",medal)
     header2 = "Distribution of age with respect to sport for " + medal + " medal"
     for sport in famous_sports:
         temp_df = athlete_df[athlete_df['Sport'] == sport]
         x.append(temp_df[temp_df['Medal'] == medal]['Age'].dropna())
         name.append(sport)
+        
 
     fig = ff.create_distplot(x, name, show_hist=False, show_rug=False)
     fig.update_layout(autosize=False, width=1000, height=600)
     graph2Json = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
   
-    header3 = "Height vs Weight"
+    header3 = "Height vs Weight "
     
-    if form.validate_on_submit():
-        temp_df = weight_v_height(preprocessed_df, form.Sport.data)
+    if form1.validate_on_submit():
+        temp_df = weight_v_height(preprocessed_df, form1.Sport.data)
     else:
         temp_df = weight_v_height(preprocessed_df, "Overall")
     fig, ax = plt.subplots(figsize=(15, 15))
     ax = sns.scatterplot(temp_df['Weight'], temp_df['Height'],hue=temp_df['Medal'], style=temp_df['Sex'], s=60)
     plt.savefig('static/scatter_sport.png', bbox_inches='tight')
-    
     header4 = "Men vs Women participation over the years"
     final = men_vs_women(preprocessed_df)
     fig = px.line(final, x="Year", y=["Male", "Female"])
     fig.update_layout(autosize=False, width=1000, height=600)
     graph3Json = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    
-    return render_template('athelete.html',form=form, graph1JSON=graph1Json, header1=header1, graph2JSON=graph2Json, header2=header2, header3 = header3, graph3JSON=graph3Json,header4=header4)
-
+    return render_template('athelete.html', form=form, form1=form1, graph1JSON=graph1Json, header1=header1, graph2JSON=graph2Json, header2=header2, header3=header3, graph3JSON=graph3Json, header4=header4)
+'''
 if __name__ == "__main__": 
     print(" * Going for dataset preprocessing")
     preprocessed_df = preprocess(df, region_df)
     print(" * Preprocessing completed!!! ")
     app.run(debug=True,port=5001)
+'''

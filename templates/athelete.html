@@ -14,12 +14,8 @@
                 <div class="form-group">
                     {{ form.Medal.label(class="form-control-label") }}
                     {% if form.Medal.errors %}
-                    {{ form.Medal(class="form-control form-control-lg is-invalid") }}
-                    <div class='invalid-feedback'>
-                        {% for error in form.Medal.errors %}
-                        <span> {{ error }}</span>
-                        {% endfor %}
-                    </div>
+                    {{ form.Medal(class="form-control form-control-lg ") }}
+
                     {% else %}
                     {{ form.Medal(class="form-control form-control-lg") }}
                     {% endif %}
@@ -42,18 +38,14 @@
 <div class="content-section">
     <form method="POST" action="">
         <fieldset class="form-group">
-            {{ form.hidden_tag() }}
+            {{ form1.hidden_tag() }}
             <div class="form-group">
-                {{ form.Sport.label(class="form-control-label") }}
-                {% if form.Sport.errors %}
-                {{ form.Sport(class="form-control form-control-lg is-invalid") }}
-                <div class='invalid-feedback'>
-                    {% for error in form.Sport.errors %}
-                    <span> {{ error }}</span>
-                    {% endfor %}
-                </div>
+                {{ form1.Sport.label(class="form-control-label") }}
+                {% if form1.Sport.errors %}
+                {{ form1.Sport(class="form-control form-control-lg ") }}
+
                 {% else %}
-                {{ form.Sport(class="form-control form-control-lg") }}
+                {{ form1.Sport(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
         </fieldset>
