@@ -1,0 +1,80 @@
+main {
+    width: 100vw;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.detail-container {
+    width: 100vw;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.heading-text {
+    font-size: xx-large;
+    color: aliceblue;
+}
+
+h1,
+h2,
+h3,
+.text {
+    text-align: center;
+    color: aliceblue;
+}
+h4{
+    color: rgb(204, 212, 218);
+}
+.detail {
+    background-color: white;
+    padding: 1vw 0 1vw 0;
+    border-radius: 1vw;
+    text-align: center;
+    font-size: larger;
+    box-shadow: 0 0 2vh 0.1vh rgba(0, 0, 0, 0.532);
+    font-weight: bold;
+
+}
+
+.graph-container {
+    max-width: 100vw;
+}
+
+.pqr {
+    /* padding: 1vw 0 1vw 0; */
+    background-color: white;
+    width: 100%;
+    border-radius: 2vh;
+    aspect-ratio: 16/9.5;
+    overflow: hidden;
+}
+
+img {
+    width: 100%;
+    height: 98%;
+    border-radius: 2vh;
+}
+
+.form-group {
+    max-width: 500px;
+}
+
+.table {
+    box-shadow: 0 0 2vh 0.1vh rgba(1, 0, 71, 0.736);
+    border-color: black;
+    --bs-table-hover-color: rgb(255, 255, 255);
+    --bs-table-hover-bg: rgb(75, 75, 75);
+}
+
+thead {
+    background: rgb(21, 21, 21);
+    color: rgb(245, 245, 245);
+}
+tbody{
+    background: rgb(33, 33, 33);
+    color: rgb(227, 227, 227);
+
+}

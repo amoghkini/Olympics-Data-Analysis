@@ -1,72 +1,132 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <li class="nav-item">
+         <a class="navbar-brand" href="{{ url_for('home') }}">Olympoics</a>
+         </li>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="active">
+                    <a class="nav-link " href="{{ url_for('medalTally') }}">Medal Tally</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="{{ url_for('overall') }}">Overall Analysis</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="{{ url_for('country') }}">Country-wise Analysis</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('athelete') }}">Athelete wise Analysis</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
 {% extends "layout.html" %}
 
 {% block content %}
 
 {% if graph1JSON != {} %}
-<center><h4 class="border-bottom mb-4 h1">  {{ header1}}  </h4></center>
-<center><div id="chart1" class="chart1"></div></center>
-
-<center>
-    <div class="content-section">
-        <form method="POST" action="">
-            <fieldset class="form-group">
-                {{ form.hidden_tag() }}
-                <div class="form-group">
-                    {{ form.Medal.label(class="form-control-label") }}
-                    {% if form.Medal.errors %}
-                    {{ form.Medal(class="form-control form-control-lg ") }}
-
-                    {% else %}
-                    {{ form.Medal(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-            </fieldset>
-            <br>
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-sm-12 col-md-6">
             <center>
-                <div class="form-group">
-                    {{ form.submit(class="btn btn-dark") }}
+                <h4 class="my-2 text"> {{ header1}} </h4>
+            </center>
+            <div class="pqr">
+                <div id="chart1" class="chart1"></div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <center>
+                <h4 class="my-2 text"> {{ header4}} </h4>
+            </center>
+            <div class="pqr">
+                <div id="chart3" class="chart3"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-sm-12 col-md-6">
+            <center>
+                <div class="content-section">
+                    <form method="POST" action="">
+                        <fieldset class="form-group">
+                            {{ form.hidden_tag() }}
+                            <div class="form-group">
+                                <h4>{{ form.Medal.label(class="form-control-label") }}</h4>
+                                {% if form.Medal.errors %}
+                                {{ form.Medal(class="form-control form-control-lg ") }}
+
+                                {% else %}
+                                {{ form.Medal(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                        </fieldset>
+                        <br>
+                        <center>
+                            <div class="form-group">
+                                {{ form.submit(class="btn btn-light mb-4") }}
+                            </div>
+                        </center>
+                    </form>
+
                 </div>
             </center>
-        </form>
 
+            <center>
+                <h4 class="my-2 text"> {{ header2}} </h4>
+            </center>
+            <div class="pqr">
+                <div id="chart2" class="chart2"></div>
+            </div>
+
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <center>
+                <div class="content-section">
+                    <form method="POST" action="">
+                        <fieldset class="form-group">
+                            {{ form1.hidden_tag() }}
+                            <div class="form-group">
+                                <h4>{{ form1.Sport.label(class="form-control-label") }}</h4>
+                                {% if form1.Sport.errors %}
+                                {{ form1.Sport(class="form-control form-control-lg ") }}
+
+                                {% else %}
+                                {{ form1.Sport(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                        </fieldset>
+                        <br>
+                        <center>
+                            <div class="form-group">
+                                {{ form.submit(class="btn btn-light mb-4") }}
+                            </div>
+                        </center>
+                    </form>
+
+                </div>
+            </center>
+            <center>
+                <h4 class="my-2 text"> {{ header3}} </h4>
+            </center>
+            <div class="pqr"><img src="static/scatter_sport.png" alt="Italian Trulli"></div>
+            <br>
+
+            {% endif %}
+        </div>
     </div>
-</center>
-
-<center><h4 class="border-bottom mb-4 h1"> {{ header2}} </h4></center>
-<center><div id="chart2" class="chart2"></div></center>
-<center>
-<div class="content-section">
-    <form method="POST" action="">
-        <fieldset class="form-group">
-            {{ form1.hidden_tag() }}
-            <div class="form-group">
-                {{ form1.Sport.label(class="form-control-label") }}
-                {% if form1.Sport.errors %}
-                {{ form1.Sport(class="form-control form-control-lg ") }}
-
-                {% else %}
-                {{ form1.Sport(class="form-control form-control-lg") }}
-                {% endif %}
-            </div>
-        </fieldset>
-        <br>
-        <center>
-            <div class="form-group">
-                {{ form.submit(class="btn btn-dark") }}
-            </div>
-        </center>
-    </form>
-
 </div>
-</center>
-<center><h4 class="border-bottom mb-4 h1"> {{ header3}} </h4></center>
-<center><img src="static/scatter_sport.png" alt="Italian Trulli"></center>
-<br>
-
-<center><h4 class="border-bottom mb-4 h1"> {{ header4}} </h4></center>
-<center><div id="chart3" class="chart3"></div></center>
-
-{% endif %}
 
 
 
@@ -75,7 +135,7 @@
     var graphs1 = {{ graph1JSON | safe}};
     Plotly.plot("chart1", graphs1, {});
 
-    
+
     var graphs2 = {{ graph2JSON | safe}};
     Plotly.plot("chart2", graphs2, {});
 

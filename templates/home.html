@@ -1,13 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('home') }}">Olympoics</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link navbarlink" href="{{ url_for('medalTally') }}">Medal Tally</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('overall') }}">Overall Analysis</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('country') }}">Country-wise Analysis</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('athelete') }}">Athelete wise Analysis</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
 {% extends "layout.html" %}
 
 {% block content %}
-<center>
-    <h1> Hi, Please check various functionalities on navigation bar for detailed analysis of Olympics </h1>
-</center>
+<main style="height:79.5vh;">
+
+    <center>
+        <h1> Hi, Please check various functionalities on navigation bar for detailed analysis of Olympics </h1>
+    </center>
+</main>
 
 <article class="media content-section">
-
-
 </article>
 
 

@@ -1,0 +1,33 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: 0;
+}
+body{
+    background-image:url('./mainbg.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.navbar {
+    background: #543210;
+}
+
+.navbar-brand {
+    font-size: x-large;
+}
+
+.nav-item {
+    margin: 0 0.1vw 0 0.1vw;
+    border-radius: 10px;
+    padding: 0.1vw;
+}
+
+.nav-item:hover {
+    background-color: #6eb4ff;
+    color: #ffffff;  
+    transition: 0.01s;
+}
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #ffffff; 
+}

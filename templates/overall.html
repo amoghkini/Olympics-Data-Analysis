@@ -1,93 +1,145 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <li class="nav-item">
+         <a class="navbar-brand" href="{{ url_for('home') }}">Olympoics</a>
+         </li>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="active">
+                    <a class="nav-link " href="{{ url_for('medalTally') }}">Medal Tally</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="{{ url_for('overall') }}">Overall Analysis</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('country') }}">Country-wise Analysis</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('athelete') }}">Athelete wise Analysis</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
 {% extends "layout.html" %}
 
 {% block content %}
 
-<center><legend class="border-bottom mb-4 h1"> {{ header }} </legend></center>
 
-{% for key,value in analysis.items() %}
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h2 style="text-align:center">{{key}} : {{value}}</h4>
+<main class="ovrmain">
+    <h1 class="heading-text">{{ header }}</h1>
+    <div class="container row p-0">
+        {% for key,value in analysis.items() %}
+        <div class="col-sm-6 gy-4 col-md-4">
+            <div class="detail">{{key}} : {{value}}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <br>
+    <h1 class="heading-text">{{ header }}</h1>
+    <div class="container-fluid graph-container py-1 px-4">
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="col-12">
+                    <center>
+                        <h4 class="my-2 text"> Participating countries over the years </h4>
+                    </center>
+                    <div class="pqr">
+                        <div id="chart1" class="chart1"></div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <center>
+                        <h4 class="my-2 text"> Participating countries over the years </h4>
+                    </center>
+                    <div class="pqr">
+                        <div id="chart2" class="chart2"></div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <center>
+                        <h4 class="my-2 text"> Participating countries over the years </h4>
+                    </center>
+                    <div class="pqr">
+                        <div id="chart3" class="chart3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="col-12 px-1">
+                    <center>
+
+                        <h4 class="mb-1 text"> Number of events over time(Every Sport) </h4>
+                    </center>
+                    <img src="static/heatmap.png" id="heatmap" alt="Italian Trulli">
+                </div>
+            </div>
         </div>
     </div>
-</div>
-{% endfor %}
-<br>
-<center><h4 class="border-bottom mb-4 h1"> Participating countries over the years  </h4></center>
-<div id="chart1" class="chart1"></div>
+    <br><br>
+    <div class="container">
+        <div class="content-section">
+            <form method="POST" action="">
+                <center>
+                    <fieldset class="form-group">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            <h2>{{ form.Sport.label(class="form-control-label") }}</h2>
+                            {% if form.Sport.errors %}
+                            {{ form.Sport(class="form-control form-control-lg is-invalid") }}
+                            <div class='invalid-feedback'>
+                                {% for error in form.Sport.errors %}
+                                <span> {{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.Sport(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <br>
+                    <div class="form-group">
+                        {{ form.submit(class="btn btn-light mb-4") }}
+                    </div>
+                </center>
+            </form>
 
-<center><h4 class="border-bottom mb-4 h1"> Events over the time </h4></center>
-<div id="chart2" class="chart2"></div>
+        </div>
 
-<center><h4 class="border-bottom mb-4 h1"> Athletes over the time </h4></center>
-<div id="chart3" class="chart3"></div>
+        <table class="table table-bordered table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th style="text-align:center" scope="col">Name</th>
+                    <th style="text-align:center" scope="col">Medal</th>
+                    <th style="text-align:center" scope="col">Sport</th>
+                    <th style="text-align:center" scope="col">Region</th>
 
-<center><h4 class="border-bottom mb-4 h1"> Number of events over time(Every Sport) </h4></center>
-<center><img src="static/heatmap.png" alt="Italian Trulli"></center>
-<br>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key,value in successful_athletes.iterrows() %}
+                <tr>
+                    <td style="text-align:center">{{ value['Name'] }}</td>
+                    <td style="text-align:center">{{ value['Medals'] }}</td>
+                    <td style="text-align:center">{{ value['Sport'] }}</td>
+                    <td style="text-align:center">{{ value['region'] }}</td>
+                </tr>
+                {% endfor %}
 
-<center><h4 class="border-bottom mb-4 h1"> Most Successful Athletes </h4></center>
-
-<div class="content-section">
-    <form method="POST" action="">
-        <fieldset class="form-group">
-            {{ form.hidden_tag() }}
-            <div class="form-group">
-                {{ form.Sport.label(class="form-control-label") }}
-                {% if form.Sport.errors %}
-                {{ form.Sport(class="form-control form-control-lg is-invalid") }}
-                <div class='invalid-feedback'>
-                    {% for error in form.Sport.errors %}
-                    <span> {{ error }}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ form.Sport(class="form-control form-control-lg") }}
-                {% endif %}
-            </div>
-        </fieldset>
-        <br>
-        <center>
-            <div class="form-group">
-                {{ form.submit(class="btn btn-dark") }}
-            </div>
-        </center>
-    </form>
-
-</div>
-
-<table class="table table-dark table-hover">
-    <thead>
-        <tr>
-            <th style="text-align:center" scope="col">Name</th>
-            <th style="text-align:center" scope="col">Medal</th>
-            <th style="text-align:center" scope="col">Sport</th>
-            <th style="text-align:center" scope="col">Region</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        {% for key,value in successful_athletes.iterrows() %}
-        <tr>
-            <td style="text-align:center">{{ value['Name'] }}</td>
-            <td style="text-align:center">{{ value['Medals'] }}</td>
-            <td style="text-align:center">{{ value['Sport'] }}</td>
-            <td style="text-align:center">{{ value['region'] }}</td>
-        </tr>
-        {% endfor %}
-
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
+            </tbody>
+        </table>
+    </div>
+</main>
 <script type="text/javascript">
     var graphs1 = {{ graph1JSON | safe}};
     Plotly.plot("chart1", graphs1, {});
@@ -100,4 +152,3 @@
 
 </script>
 {% endblock content %}
-

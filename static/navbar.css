@@ -1,0 +1,41 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: 0;
+}
+*::-webkit-scrollbar{
+    background: none;
+}
+*::-webkit-scrollbar-thumb{
+    background: #9a9a9ac2;
+}
+body{
+    /* background-image:url('./mainbg.jpg'); */
+    /* background-image: linear-gradient(45deg, #7ec9f5,#3957ed); */
+    background-image: linear-gradient(45deg, #000428,#004e92);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: overlay;
+}
+.navbar {
+    background: #543210;
+}
+
+.navbar-brand {
+    font-size: x-large;
+}
+
+.nav-item {
+    margin: 0 0.1vw 0 0.1vw;
+    border-radius: 10px;
+    padding: 0.1vw;
+}
+
+.nav-item:hover {
+    background-color: #6eb4ff;
+    transition: 0.01s;
+}
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #212529; 
+}

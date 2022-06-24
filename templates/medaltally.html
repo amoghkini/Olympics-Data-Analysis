@@ -1,86 +1,125 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <li class="nav-item">
+         <a class="navbar-brand" href="{{ url_for('home') }}">Olympoics</a>
+         </li>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="active">
+                    <a class="nav-link active" href="{{ url_for('medalTally') }}">Medal Tally</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('overall') }}">Overall Analysis</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('country') }}">Country-wise Analysis</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('athelete') }}">Athelete wise Analysis</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
 {% extends "layout.html" %}
 
 {% block content %}
 
-<div class="content-section">
-    <form method="POST" action="">
-        <fieldset class="form-group">
-            {{ form.hidden_tag() }}
-            <center><legend class="border-bottom mb-4 h1"> {{ header }}</legend></center>
-            <div class="form-group">
-                {{ form.Country.label(class="form-control-label") }}
-                {% if form.Country.errors %}
-                {{ form.Country(class="form-control form-control-lg is-invalid") }}
-                <div class='invalid-feedback'>
-                    {% for error in form.Country.errors %}
-                    <span> {{ error }}</span>
-                    {% endfor %}
+<center>
+        <legend class="mb-4 h1 text"> {{ header }}</legend>
+    <div class="content-section">
+        <form method="POST" action="">
+            <fieldset class="form-group">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <h3>{{ form.Country.label(class="form-control-label mt-3") }}</h3>
+                    {% if form.Country.errors %}
+                    {{ form.Country(class="form-control form-control-lg is-invalid") }}
+                    <div class='invalid-feedback'>
+                        {% for error in form.Country.errors %}
+                        <span> {{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.Country(class="form-control form-control-lg") }}
+                    {% endif %}
                 </div>
-                {% else %}
-                {{ form.Country(class="form-control form-control-lg") }}
-                {% endif %}
-            </div>
-            <div class="form-group">
-                {{ form.Years.label(class="form-control-label") }}
-                {% if form.Years.errors %}
-                {{ form.Years(class="form-control form-control-lg is-invalid") }}
-                <div class='invalid-feedback'>
-                    {% for error in form.Years.errors %}
-                    <span> {{ error }}</span>
-                    {% endfor %}
+                <div class="form-group">
+                    <h3>{{ form.Years.label(class="form-control-label mt-3") }}</h3>
+                    {% if form.Years.errors %}
+                    {{ form.Years(class="form-control form-control-lg is-invalid") }}
+                    <div class='invalid-feedback'>
+                        {% for error in form.Years.errors %}
+                        <span> {{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.Years(class="form-control form-control-lg") }}
+                    {% endif %}
                 </div>
-                {% else %}
-                {{ form.Years(class="form-control form-control-lg") }}
-                {% endif %}
-            </div>
-        </fieldset>
-        <br>
-        <center>
-        <div class="form-group">
-            {{ form.submit(class="btn btn-dark") }}
-        </div>
-        </center>
-    </form>
+            </fieldset>
+</center>
+<br>
+<center>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-light mb-4") }}
+    </div>
+</center>
+</form>
 
 </div>
+<div class="container">
 
-<table class="table table-dark table-hover">
-    <thead>
-        <tr>
-            <th style="text-align:center" scope="col">Index</th>
-            {% if form.Country.data != "Overall" and  form.Years.data == "Overall" %}
+    <table class="table table-bordered table-hover table-responsive">
+        <thead>
+            <tr>
+                <th style="text-align:center" scope="col">Index</th>
+                {% if form.Country.data != "Overall" and form.Years.data == "Overall" %}
                 <th style="text-align:center" scope="col">Year</th>
-            {% else %}
+                {% else %}
                 <th style="text-align:center" scope="col">Region</th>
-            {% endif %}
-            <th style="text-align:center" scope="col">Gold</th>
-            <th style="text-align:center" scope="col">Silver</th>
-            <th style="text-align:center" scope="col">Bronze</th>
-            <th style="text-align:center" scope="col">Total</th>
-            
-        </tr>
-    </thead>
-    <tbody>
-        {% for key,value in medal_tally.iterrows() %}
-        <tr>
-        <td style="text-align:center">{{ key + 1 }}</td>
-        {% if form.Country.data != "Overall" and form.Years.data == "Overall" %}
-            <td style="text-align:center">{{ value['Year'] }}</td>
-        {% else %}
-            <td style="text-align:center">{{ value['region'] }}</td>
-        {% endif %}
-        <td style="text-align:center">{{ value['Gold'] }}</td>
-        <td style="text-align:center">{{ value['Silver'] }}</td>
-        <td style="text-align:center">{{ value['Bronze'] }}</td>
-        <td style="text-align:center">{{ value['Total'] }}</td>
-        </tr>
-        {% endfor %}
-               
-    </tbody>
-</table>
+                {% endif %}
+                <th style="text-align:center" scope="col">Gold</th>
+                <th style="text-align:center" scope="col">Silver</th>
+                <th style="text-align:center" scope="col">Bronze</th>
+                <th style="text-align:center" scope="col">Total</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for key,value in medal_tally.iterrows() %}
+            <tr>
+                <td style="text-align:center">{{ key + 1 }}</td>
+                {% if form.Country.data != "Overall" and form.Years.data == "Overall" %}
+                <td style="text-align:center">{{ value['Year'] }}</td>
+                {% else %}
+                <td style="text-align:center">{{ value['region'] }}</td>
+                {% endif %}
+                <td style="text-align:center">{{ value['Gold'] }}</td>
+                <td style="text-align:center">{{ value['Silver'] }}</td>
+                <td style="text-align:center">{{ value['Bronze'] }}</td>
+                <td style="text-align:center">{{ value['Total'] }}</td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
 
 {% if df_length == 0 %}
-    <center><h6>{{ form.Country.data }} did not participated in year {{ form.Years.data }}</h6></center>
+<center>
+    <h6>{{ form.Country.data }} did not participated in year {{ form.Years.data }}</h6>
+</center>
 {% endif %}
 
 
