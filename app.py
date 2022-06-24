@@ -38,11 +38,24 @@ class countryForm(FlaskForm):
 class AthleteMedal(FlaskForm):
     Medal = SelectField('Select Medal', choices=['Gold', 'Silver'])
     submit = SubmitField('Submit')
-    
+
 @app.route('/')
 def home():
-    #return render_template('home.html', tables=[preprocessed_df.to_html()], titles=[''])
-    return render_template('home.html')
+    form = Medals()
+    if form.validate_on_submit():
+        country = form.Country.data
+        year = form.Years.data
+        print("form", form.Country.data)
+        medals_total, header = fetch_medal_tally(
+            preprocessed_df, year, country)
+    elif request.method == 'GET':
+        medals_total, header = fetch_medal_tally(
+            preprocessed_df, 'Overall', "Overall")
+    df_length = len(medals_total)
+    print("Length", df_length)
+    print(type(medalTally))
+    return render_template('medaltally.html', form=form, header=header, medal_tally=medals_total, df_length=df_length)
+    #return render_template('home.html')
 
 @app.route('/medaltally',methods=['GET',"POST"])
 def medalTally():
