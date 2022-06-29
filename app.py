@@ -39,7 +39,7 @@ class AthleteMedal(FlaskForm):
     Medal = SelectField('Select Medal', choices=['Gold', 'Silver'])
     submit = SubmitField('Submit')
 
-@app.route('/')
+@app.route('/', methods=['GET', "POST"])
 def home():
     form = Medals()
     if form.validate_on_submit():
